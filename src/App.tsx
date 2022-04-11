@@ -37,7 +37,7 @@ function App() {
         <div>
             <ButtonComponent label='Click 1' value='1' onClick={handleClick}/>
             <ButtonComponent label='Click 2' value='2' onClick={handleClick}/>
-            <ButtonComponent label='Click 3' value='3' onClick={handleClick}/>
+            <ButtonComponent label='Click 3!' value='3' onClick={handleClick}/>
         </div>
     );
 }
