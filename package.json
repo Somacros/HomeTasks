@@ -15,7 +15,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run-script test",
+      "pre-commit": "npm test",
       "pre-push": "npm run test"
     }
   },
