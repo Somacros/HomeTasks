@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useState } from 'react';
+import {useState} from 'react'
+import Header from './components/Header/Header';
 
 /*interface ButtonProps {
     label: string;
@@ -9,14 +10,14 @@ import { useState } from 'react';
 
 function App() {
 
-  const handleClick = (event: any) => {
-  };
+    const handleClick = (event:any) => {
+    }
 
-  return (
-    <div>
-            GOOD BYEEEEE
-    </div>
-  );
+    return (
+        <div>
+            <Header/>
+        </div>
+    );
 }
 
 export default App;
