@@ -24,6 +24,10 @@ module.exports = {
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },
+            {
+                test: /\.(png|jpg|svg|gif)$/,
+                use: 'file-loader',
+            }
         ]
     },
     resolve: {
@@ -33,5 +37,12 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html'
         })
-    ]
+    ],
+    devServer: {
+        static: path.join(__dirname, 'public'), // boolean | string | array | object, static file location
+        compress: true, // enable gzip compression
+        historyApiFallback: true, // true for index.html upon 404, object for multiple paths
+        hot: true, // hot module replacement. Depends on HotModuleReplacementPlugin
+        https: false, // true for self-signed, object for cert authority
+    }
 }
