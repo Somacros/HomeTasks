@@ -10,6 +10,7 @@ interface IButton {
     color?: string; // two styling options (you can create as many as you want)
     disabled?: boolean; // make the button disabled or not
     background?: string;
+    kind: string;
 }
 
 export const Button = ({
@@ -17,9 +18,10 @@ export const Button = ({
     children,
     color = "white",
     disabled,
+    kind
 }: IButton) => {
     return (
-        <ButtonBase color={color}>{children}</ButtonBase>
+        <ButtonBase kind={kind} onClick={onClick} color={color}>{children}</ButtonBase>
     )
 }
 

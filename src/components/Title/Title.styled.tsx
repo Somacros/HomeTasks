@@ -10,7 +10,6 @@ export const Title = ({
     children,
     color
 }: ITitle) => {
-    console.log('Hola');
     return(
         <TitleBase color={color}>{children}</TitleBase>
     )
