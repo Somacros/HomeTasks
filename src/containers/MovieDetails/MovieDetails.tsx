@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import SearchRedIcon from '../../icons/search_red.png';
 import { IMovie } from '../../types/Movie';
+import { setIsSearching } from '../../store/movie/action';
 
 const MovieDetailsDiv = styled.div`
     padding 1em 0em 2em 6em;
@@ -89,17 +91,16 @@ const MovieDetailsText = styled.p`
 
 interface TMovieDetails {
     movie: IMovie;
-    handleSearchClick: (valor: boolean) => void;
 }
 
 const MovieDetails = ({
     movie,
-    handleSearchClick
 }: TMovieDetails) => {
     const { title, rate, categories, year, duration, details, posterLink } = movie;
+    const dispatch = useDispatch();
     return (
         <MovieDetailsDiv>
-            <SearchIcon onClick={(event:any)=> handleSearchClick(true)}/>
+            <SearchIcon onClick={() => dispatch(setIsSearching(true))}/>
             <div style={{width: "20%"}}>
                 <MoviePicture src={posterLink}/>
             </div>

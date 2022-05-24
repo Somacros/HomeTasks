@@ -1,5 +1,8 @@
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { useGetMovies } from '../../hooks/useGetMovies';
+import { setIsAddingMovie } from '../../store/movie/action';
 import Button from '../Button/Button.styled';
 import SearchBar from '../SearchBar/SearchBar.styled';
 import Title from '../Title/Title.styled';
@@ -45,17 +48,18 @@ const Logo = styled.img.attrs({
     margin-left: 2em;
 `;
 
-interface IHeader {
-    onShow?: () => void;
-    onSearchChange: (event: any) => void;
-    onSearchClick: () => void;
-}
+const Header = () => {
 
-const Header = ({
-    onShow,
-    onSearchChange,
-    onSearchClick
-}: IHeader) => {
+    const [setMoviesArray] = useGetMovies();
+    const dispatch = useDispatch();
+
+    const handleButtonClick = () => {
+        dispatch(setIsAddingMovie(true));
+    }
+
+    const handleSearchClick = () => {
+        setMoviesArray();
+    }
 
     return (
         <div>
@@ -63,12 +67,21 @@ const Header = ({
                 <Logo />
                 <Wrapper>
                     <TopHeader>
-                        <Button onClick={onShow} kind="secondary">+ ADD MOVIE</Button>
+                        <Button 
+                        onClick={handleButtonClick}
+                        kind="secondary">
+                            + ADD MOVIE
+                        </Button>
                     </TopHeader>
-                    <Title color="#FFFFFF">FIND YOUR MOVIE</Title>
+                    <Title 
+                    color="#FFFFFF">
+                        FIND YOUR MOVIE
+                    </Title>
                     <SearchWrapper>
-                        <SearchBar onChange={onSearchChange} placeholder='What do you want to watch?' />
-                        <Button onClick={onSearchClick} kind="primary">SEARCH</Button>
+                        <SearchBar placeholder='What do you want to watch?' />
+                        <Button onClick={handleSearchClick} kind="primary">
+                            SEARCH
+                        </Button>
                     </SearchWrapper>
                 </Wrapper>
             </Background>

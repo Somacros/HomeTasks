@@ -1,6 +1,9 @@
 import * as React from 'react';
 import {IMovie, IMovieRequest} from '../types/Movie';
 import * as moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentMovie, setMoviesArray as storeSetMoviesArray } from '../store/movie/action';
+import { selectLimit, selectQueryObject } from '../store/query/selector';
 
 interface IMoviesQuery {
     limit?: number;
@@ -12,21 +15,33 @@ interface IMoviesQuery {
     filter?: string[];
 }
 
-type AsyncStateApi<IMoviesQuery> = [Array<IMovie>, (value: IMoviesQuery) => void];
+type AsyncStateApi<IMoviesQuery> = [() => void];
 
-export const useGetMovies = (props:IMoviesQuery): AsyncStateApi<IMoviesQuery> => {
+export const useGetMovies = (): AsyncStateApi<IMoviesQuery> => {
     const [moviesArray, setMoviesArray] = React.useState(Array<IMovie>());
 
+    const dispatch = useDispatch();
+    const { 
+        limit,
+        offset,
+        sortBy,
+        sortOrder,
+        search,
+        searchBy,
+        filter
+    } = useSelector(selectQueryObject);
+
     React.useEffect(()=> {
-        getMovies(props);
+        getMovies();
     }, []);
 
-    const getMovies = ({ offset = 0, limit = 10, ...props }:IMoviesQuery) => {
+    const getMovies = () => {
+
         fetch('http://localhost:4000/movies?' + new URLSearchParams({
             offset: offset.toString(),
             limit: limit.toString(),
-            search: props.search || '',
-            searchBy: props.searchBy || 'title',
+            search: search || '',
+            searchBy: searchBy || 'title',
         }))
         .then(response => response.json())
         .then(data => {
@@ -45,10 +60,10 @@ export const useGetMovies = (props:IMoviesQuery): AsyncStateApi<IMoviesQuery> =>
 
                 return movieData;
             });
-
             setMoviesArray(filteredData);
+            dispatch(storeSetMoviesArray(filteredData));
         });
     }
 
-    return [moviesArray, getMovies];
+    return [getMovies];
 };

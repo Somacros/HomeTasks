@@ -2,6 +2,8 @@ import styled from "styled-components";
 import * as React from 'react';
 import MovieCard from "../MovieCard/MovieCard";
 import { IMovie } from "../../types/Movie";
+import { useSelector } from "react-redux";
+import { selectMoviesArray } from "../../store/movie/selector";
 
 const Wrapper = styled.div`
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
@@ -13,22 +15,29 @@ const Wrapper = styled.div`
 `;
 
 interface IBodyContent {
-    moviesArray: IMovie[];
-    handleMovieClick: (movie:IMovie) => void;
 }
 
 const BodyContent = ({
-    moviesArray,
-    handleMovieClick,
 }: IBodyContent) => {
+
+    const moviesList = useSelector(selectMoviesArray);
+
+    let Body;
+
+    if(moviesList instanceof Array) {
+        Body = moviesList.map((movie, index, array) => {
+            return(
+                <MovieCard key={movie.id} movie={movie}></MovieCard>
+            );
+        })
+    } else {
+        Body = <></>
+    }
+
     return (
         <Wrapper>
             {
-                moviesArray.map((movie, index, array) => {
-                    return(
-                        <MovieCard handleMovieClick={handleMovieClick} key={movie.id} movie={movie}></MovieCard>
-                    );
-                })
+                Body
             }
         </Wrapper>
     )

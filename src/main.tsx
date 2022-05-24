@@ -2,4 +2,12 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import App from './app';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { store } from './store/store';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>
+    , document.getElementById('root'));

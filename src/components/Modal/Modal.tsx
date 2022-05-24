@@ -6,6 +6,9 @@ import RedCalendar from './calendar-red.png';
 import RedDownArrow from '../Select/red_down_arrow.png';
 import WhiteCross from '../../icons/cross-white.png';
 import RedCheck from '../../icons/red-check.png';
+import { useDispatch, useSelector } from "react-redux";
+import { setIsAddingMovie } from "../../store/movie/action";
+import { RootState } from "../../store/root-reducer";
 
 interface IModalContent {
     kind?: string;
@@ -210,22 +213,16 @@ const ErrorMessage = styled.label`
 
 interface IModal {
     show?: boolean;
-    onCrossClick?: () => void;
     title?: string;
     bodyText?: string;
     footerText?: string;
 }
 
 export const FormModal = ({
-    show,
-    onCrossClick
 }: IModal) => {
 
     const [selectedGenres, setSelectedGenres] = React.useState([]);
-
-    if(!show) {
-        return null;
-    }
+    const dispatch = useDispatch();
 
     const ErrorDisplay = selectedGenres.length ? <p></p> : <ErrorMessage>Select at least one genre to proceed</ErrorMessage>
 
@@ -233,7 +230,7 @@ export const FormModal = ({
         <ModalOverlay>
             <ModalContent>
                 <ModalHeader>
-                    <ModalCloseButton onClick={onCrossClick}/>
+                    <ModalCloseButton onClick={() => dispatch(setIsAddingMovie(false))}/>
                     <ModalTitle>ADD MOVIE</ModalTitle>
                 </ModalHeader>
                 <ModalBody>
@@ -314,15 +311,17 @@ export const FormModal = ({
 }
 
 export const SuccessModal = ({
-    onCrossClick,
     title,
     bodyText
 }: IModal) => {
+
+    const dispatch = useDispatch();
+
     return(
         <ModalOverlay kind={"secondary"}>
             <ModalContent kind={"secondary"}>
                 <ModalHeader>
-                    <ModalCloseButton onClick={onCrossClick}/>
+                    <ModalCloseButton onClick={() => dispatch(setIsAddingMovie(false))}/>
                     <ModalCheckIcon/>
                     <ModalTitle>{title}</ModalTitle>
                 </ModalHeader>
@@ -340,16 +339,18 @@ export const SuccessModal = ({
 }
 
 export const Modal = ({
-    onCrossClick,
     title,
     bodyText,
     footerText
 }: IModal) => {
+
+    const dispatch = useDispatch();
+
     return(
         <ModalOverlay kind={"secondary"}>
             <ModalContent kind={"secondary"}>
                 <ModalHeader>
-                    <ModalCloseButton onClick={onCrossClick}/>
+                    <ModalCloseButton onClick={() => dispatch(setIsAddingMovie(false))}/>
                     <ModalCheckIcon/>
                     <ModalTitle>{title}</ModalTitle>
                 </ModalHeader>

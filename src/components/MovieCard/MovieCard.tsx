@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import * as React from 'react';
 import { IMovie } from "../../types/Movie";
+import { useDispatch } from "react-redux";
+import { setCurrentMovie as storeSetCurrentMovie } from "../../store/movie/action";
+import { useHistory } from "react-router-dom";
 
 const Wrapper = styled.div`
     width: 25%;
@@ -89,16 +92,21 @@ const ActionsButton = styled.a`
 
 interface IMovieCard {
     movie: IMovie;
-    handleMovieClick: (movie:IMovie) => void;
 }
 
 const MovieCard = ({
     movie,
-    handleMovieClick,
 }: IMovieCard) => {
     const { categories, ...rest } = movie;
+    const dispatch = useDispatch();
+
+    const handleClick = () => {
+        dispatch(storeSetCurrentMovie(movie));
+        //history(`/search?id=${movie.id}&title=${movie.title}`);
+    }
+
     return (
-        <Wrapper onClick={()=> handleMovieClick(movie)}>
+        <Wrapper onClick={handleClick}>
             <ImageContainer>
                 <ActionsButton>&#xFE19;</ActionsButton>
                 <MoviePicture src={movie.posterLink} alt="movie" />
